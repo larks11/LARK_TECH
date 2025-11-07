@@ -41,7 +41,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
     const { itemsPrice, taxPrice, shippingPrice, totalPrice } =
       calcPrices(dbOrderItems);
 
-    const order = new Order({
+  const order = new Order({
       orderItems: dbOrderItems,
       user: req.user._id,
       shippingAddress,
@@ -50,6 +50,16 @@ const addOrderItems = asyncHandler(async (req, res) => {
       taxPrice,
       shippingPrice,
       totalPrice,
+      isPaid: true,
+      paidAt: Date.now(),
+      paymentResult: {
+        id: 'manual',
+        status: 'COMPLETED',
+        update_time: new Date(),
+        email_address: req.user.email,
+      },
+      isDelivered: true,
+      deliveredAt: Date.now(),
     });
 
     const createdOrder = await order.save();

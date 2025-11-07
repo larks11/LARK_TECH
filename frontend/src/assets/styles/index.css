@@ -12,7 +12,7 @@ main {
 
 .rating-text {
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 700;
   padding-left: 0.5rem;
 }
 
@@ -50,4 +50,20 @@ table th {
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
+}
+/* ===== Header Logo Text Style ===== */
+.logo-text {
+  font-weight: 700;          /* bold text */
+  font-size: 1.6rem;         /* bigger text */
+  letter-spacing: 1px;       /* cleaner spacing */
+  color: #d4af37;            /* gold color to match your logo */
+  margin-left: 10px;         /* spacing between logo and text */
+  display: flex;
+  align-items: center;       /* center vertically with logo */
+  text-transform: uppercase; /* all caps for style */
+  transition: color 0.3s ease;
+}
+
+.logo-text:hover {
+  color: #f1c232;            /* lighter gold hover effect */
 }

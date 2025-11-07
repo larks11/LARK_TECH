@@ -23,10 +23,12 @@ const Product = ({ product }) => {
           />
         </Card.Text>
 
-        <Card.Text as='h3'>${product.price}</Card.Text>
+        {/* Changed $ to ₱ and added commas */}
+        <Card.Text as='h3'>₱{product.price.toLocaleString()}</Card.Text>
       </Card.Body>
     </Card>
   );
 };
+
 
 export default Product;
