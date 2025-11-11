@@ -30,8 +30,17 @@ const Header = () => {
 
   return (
     <header>
-      <Navbar bg="primary" variant="dark" expand="lg" collapseOnSelect>
+      <Navbar
+        expand="lg"
+        collapseOnSelect
+        variant="dark"
+        style={{
+          backgroundColor: '#000', // Black background
+          borderBottom: '2px solid #FFD700', // Gold accent
+        }}
+      >
         <Container>
+          {/* ✅ Logo + Brand */}
           <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
             <img
               src={logo}
@@ -39,20 +48,35 @@ const Header = () => {
               style={{
                 width: '55px',
                 height: '55px',
+                marginRight: '10px',
               }}
             />
-            <span className="logo-text">LARKTECHS</span>
+            <span
+              className="logo-text"
+              style={{
+                fontWeight: 'bold',
+                fontSize: '1.7rem',
+                color: '#FFD700', // Gold text
+                letterSpacing: '1px',
+              }}
+            >
+              LARKTECHS
+            </span>
           </Navbar.Brand>
 
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-auto">
+            <Nav className="ms-auto align-items-center">
               <SearchBox />
 
-              <Nav.Link as={Link} to="/cart">
+              <Nav.Link
+                as={Link}
+                to="/cart"
+                style={{ color: '#FFD700', fontWeight: '500' }}
+              >
                 <FaShoppingCart /> Cart
                 {cartItems.length > 0 && (
-                  <Badge pill bg="success" style={{ marginLeft: '5px' }}>
+                  <Badge pill bg="warning" style={{ marginLeft: '5px', color: 'black' }}>
                     {cartItems.reduce((a, c) => a + c.qty, 0)}
                   </Badge>
                 )}
@@ -60,7 +84,11 @@ const Header = () => {
 
               {userInfo ? (
                 <>
-                  <NavDropdown title={userInfo.name} id="username">
+                  <NavDropdown
+                    title={<span style={{ color: '#FFD700' }}>{userInfo.name}</span>}
+                    id="username"
+                    menuVariant="dark"
+                  >
                     <NavDropdown.Item as={Link} to="/profile">
                       Profile
                     </NavDropdown.Item>
@@ -70,13 +98,17 @@ const Header = () => {
                   </NavDropdown>
                 </>
               ) : (
-                <Nav.Link as={Link} to="/login">
+                <Nav.Link as={Link} to="/login" style={{ color: '#FFD700' }}>
                   <FaUser /> Sign In
                 </Nav.Link>
               )}
 
               {userInfo && userInfo.isAdmin && (
-                <NavDropdown title="Admin" id="adminmenu">
+                <NavDropdown
+                  title={<span style={{ color: '#FFD700' }}>Admin</span>}
+                  id="adminmenu"
+                  menuVariant="dark"
+                >
                   <NavDropdown.Item as={Link} to="/admin/productlist">
                     Products
                   </NavDropdown.Item>
