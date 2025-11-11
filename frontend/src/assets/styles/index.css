@@ -181,3 +181,21 @@ h1, h2, h3, h4, h5, h6 {
 .col-md-3 .list-group-item * {
   color: #FFD700 !important;
 }
+
+/* ===== Fix Add to Cart text color ===== */
+button.btn.btn-warning,
+button.btn.btn-primary,
+.btn-warning,
+.btn-primary {
+  background-color: #FFD700 !important; /* gold button */
+  color: #000 !important; /* black text */
+  border: none !important;
+}
+
+button.btn.btn-warning:hover,
+button.btn.btn-primary:hover,
+.btn-warning:hover,
+.btn-primary:hover {
+  background-color: #f1c232 !important; /* lighter gold on hover */
+  color: #000 !important; /* stay black */
+}
