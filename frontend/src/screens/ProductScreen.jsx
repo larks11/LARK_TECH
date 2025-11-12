@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Row,
@@ -83,6 +82,7 @@ const ProductScreen = () => {
             <Col md={6}>
               <Image src={product.image} alt={product.name} fluid />
             </Col>
+
             <Col md={3}>
               <ListGroup variant='flush'>
                 <ListGroup.Item>
@@ -94,12 +94,15 @@ const ProductScreen = () => {
                     text={`${product.numReviews} reviews`}
                   />
                 </ListGroup.Item>
-                <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
                 <ListGroup.Item>
-                  Description: {product.description}
+                  <strong>Price:</strong> ₱{product.price}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <strong>Description:</strong> {product.description}
                 </ListGroup.Item>
               </ListGroup>
             </Col>
+
             <Col md={3}>
               <Card>
                 <ListGroup variant='flush'>
@@ -107,10 +110,11 @@ const ProductScreen = () => {
                     <Row>
                       <Col>Price:</Col>
                       <Col>
-                        <strong>${product.price}</strong>
+                        <strong>₱{product.price}</strong>
                       </Col>
                     </Row>
                   </ListGroup.Item>
+
                   <ListGroup.Item>
                     <Row>
                       <Col>Status:</Col>
@@ -120,7 +124,6 @@ const ProductScreen = () => {
                     </Row>
                   </ListGroup.Item>
 
-                  {/* Qty Select */}
                   {product.countInStock > 0 && (
                     <ListGroup.Item>
                       <Row>
@@ -158,6 +161,7 @@ const ProductScreen = () => {
               </Card>
             </Col>
           </Row>
+
           <Row className='review'>
             <Col md={6}>
               <h2>Reviews</h2>
@@ -171,6 +175,7 @@ const ProductScreen = () => {
                     <p>{review.comment}</p>
                   </ListGroup.Item>
                 ))}
+
                 <ListGroup.Item>
                   <h2>Write a Customer Review</h2>
 
@@ -194,16 +199,18 @@ const ProductScreen = () => {
                           <option value='5'>5 - Excellent</option>
                         </Form.Control>
                       </Form.Group>
+
                       <Form.Group className='my-2' controlId='comment'>
                         <Form.Label>Comment</Form.Label>
                         <Form.Control
                           as='textarea'
-                          row='3'
+                          rows='3'
                           required
                           value={comment}
                           onChange={(e) => setComment(e.target.value)}
                         ></Form.Control>
                       </Form.Group>
+
                       <Button
                         disabled={loadingProductReview}
                         type='submit'

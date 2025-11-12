@@ -1,5 +1,7 @@
+import { useSelector } from 'react-redux';
 import { Row, Col, Container } from 'react-bootstrap';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useGetProductsQuery } from '../slices/productsApiSlice';
 import Product from '../components/Product';
 import Loader from '../components/Loader';
@@ -10,11 +12,24 @@ import Meta from '../components/Meta';
 
 const HomeScreen = () => {
   const { pageNumber, keyword } = useParams();
+  const navigate = useNavigate();
+
+  // ✅ get user info from Redux
+  const { userInfo } = useSelector((state) => state.auth);
+
+  // ✅ if not logged in, redirect to login page
+  useEffect(() => {
+    if (!userInfo) {
+      navigate('/login');
+    }
+  }, [userInfo, navigate]);
 
   const { data, isLoading, error } = useGetProductsQuery({
     keyword,
     pageNumber,
   });
+
+  if (!userInfo) return null; // prevent flicker while redirecting
 
   return (
     <div
@@ -25,7 +40,7 @@ const HomeScreen = () => {
         padding: 0,
         margin: 0,
         width: '100%',
-        overflowX: 'hidden', // ✅ prevents white edges
+        overflowX: 'hidden',
       }}
     >
       {!keyword ? (
@@ -77,7 +92,7 @@ const HomeScreen = () => {
 
             <Container
               fluid
-              className="px-5" // remove auto side padding
+              className="px-5"
               style={{
                 backgroundColor: '#000',
                 display: 'flex',

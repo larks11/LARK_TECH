@@ -9,10 +9,15 @@ import {
   deleteUser,
   getUserById,
   updateUser,
+  googleAuth, // ✅ import this function
 } from '../controllers/userController.js';
+
 import { protect, admin } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
+
+// ✅ Add Google login route before the others
+router.post('/google', googleAuth);
 
 router.route('/').post(registerUser).get(protect, admin, getUsers);
 router.post('/auth', authUser);

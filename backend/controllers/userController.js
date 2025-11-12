@@ -1,6 +1,7 @@
 import asyncHandler from '../middleware/asyncHandler.js';
 import generateToken from '../utils/generateToken.js';
 import User from '../models/userModel.js';
+import jwt from 'jsonwebtoken';
 
 // @desc    Auth user & get token
 // @route   POST /api/users/auth
@@ -131,7 +132,7 @@ const deleteUser = asyncHandler(async (req, res) => {
   if (user) {
     if (user.isAdmin) {
       res.status(400);
-      throw new Error('Can not delete admin user');
+      throw new Error('Cannot delete admin user');
     }
     await User.deleteOne({ _id: user._id });
     res.json({ message: 'User removed' });
@@ -154,6 +155,7 @@ const getUserById = asyncHandler(async (req, res) => {
     throw new Error('User not found');
   }
 });
+
 // @desc    Update user
 // @route   PUT /api/users/:id
 // @access  Private/Admin
@@ -179,6 +181,38 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 });
 
+// ✅ @desc    Google Login or Register
+// @route   POST /api/users/google
+// @access  Public
+const googleAuth = asyncHandler(async (req, res) => {
+  const { email, name, googleId, image } = req.body;
+
+  let user = await User.findOne({ email });
+
+  if (!user) {
+    user = await User.create({
+      name,
+      email,
+      password: googleId, // dummy value (required field)
+      image,
+      isGoogleUser: true,
+    });
+  }
+
+  // Generate JWT manually since Google users don’t use cookie-based login
+  const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+    expiresIn: '30d',
+  });
+
+  res.json({
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+    image: user.image,
+    token,
+  });
+});
+
 export {
   authUser,
   registerUser,
@@ -189,4 +223,5 @@ export {
   deleteUser,
   getUserById,
   updateUser,
+  googleAuth, // ✅ added export
 };
