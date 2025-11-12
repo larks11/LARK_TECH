@@ -7,8 +7,9 @@ import { setCredentials } from '../slices/authSlice';
 import FormContainer from '../components/FormContainer';
 import Loader from '../components/Loader';
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
-import { jwtDecode } from 'jwt-decode'; // ✅ Correct import
-import { motion } from 'framer-motion'; // ✨ Animation
+import { jwtDecode } from 'jwt-decode';
+import { toast } from 'react-toastify';
+import { motion } from 'framer-motion';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -32,36 +33,51 @@ const LoginScreen = () => {
     }
   }, [userInfo, redirect, navigate]);
 
+  // 🟡 Normal Login
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
       const res = await login({ email, password }).unwrap();
       dispatch(setCredentials({ ...res }));
+      toast.success(`Welcome back, ${res.name}!`);
       navigate(redirect);
     } catch (err) {
       console.error(err);
+      toast.error(err?.data?.message || 'Invalid email or password');
     }
   };
 
-  // ✅ Google Login handler
+  // 🟢 Google Login
   const handleGoogleSuccess = async (credentialResponse) => {
-    const decoded = jwtDecode(credentialResponse.credential);
     try {
+      const decoded = jwtDecode(credentialResponse.credential);
+      const { name, email, sub, picture } = decoded;
+
       const res = await googleLogin({
-        name: decoded.name,
-        email: decoded.email,
-        googleId: decoded.sub,
-        image: decoded.picture,
+        name,
+        email,
+        googleId: sub,
+        image: picture,
       }).unwrap();
+
       dispatch(setCredentials({ ...res }));
-      navigate('/');
+      toast.success(`Welcome, ${res.name}!`);
+
+      // ✅ Auto-close popup or navigate back
+      if (window.opener) {
+        window.opener.location.reload();
+        window.close();
+      } else {
+        navigate('/');
+      }
     } catch (err) {
       console.error('Google login failed:', err);
+      toast.error('Google login failed');
     }
   };
 
   const handleGoogleError = () => {
-    console.log('Google Login Failed');
+    toast.error('Google Sign-In Failed');
   };
 
   return (
@@ -86,7 +102,7 @@ const LoginScreen = () => {
           top: 0,
           left: 0,
           zIndex: 0,
-          filter: 'brightness(35%)', // Darken for contrast
+          filter: 'brightness(35%)',
         }}
       >
         <source src="/videos/login-bg.mp4" type="video/mp4" />
@@ -162,7 +178,7 @@ const LoginScreen = () => {
             <p>or</p>
           </div>
 
-          {/* ✅ Google Sign In Button */}
+          {/* 🟢 Google Sign-In Button */}
           <GoogleOAuthProvider clientId="28291555489-kcf71fkcffhe0oqink37frfl0a0hdqtq.apps.googleusercontent.com">
             <div className="d-flex justify-content-center">
               <GoogleLogin

@@ -3,7 +3,7 @@ import { USERS_URL } from '../constants';
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    // 🔑 Normal Email/Password Login
+    // 🔑 Email/Password Login
     login: builder.mutation({
       query: (data) => ({
         url: `${USERS_URL}/auth`,
@@ -12,7 +12,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
       }),
     }),
 
-    // 🧠 Register User
+    // 🧠 Register
     register: builder.mutation({
       query: (data) => ({
         url: `${USERS_URL}`,
@@ -73,10 +73,10 @@ export const userApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ['User'],
     }),
 
-    // 🟢 GOOGLE LOGIN (new)
+    // 🟢 GOOGLE LOGIN — fixed route
     googleLogin: builder.mutation({
       query: (data) => ({
-        url: `${USERS_URL}/google`,
+        url: `/api/auth/google`, // ✅ match backend route
         method: 'POST',
         body: data,
       }),
@@ -93,5 +93,5 @@ export const {
   useDeleteUserMutation,
   useUpdateUserMutation,
   useGetUserDetailsQuery,
-  useGoogleLoginMutation, // ✅ add this hook for Google login
+  useGoogleLoginMutation, // ✅ Google login hook
 } = userApiSlice;
