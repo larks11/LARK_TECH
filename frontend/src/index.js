@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './assets/styles/bootstrap.custom.css';
-import './assets/styles/index.css'; // ✅ contains global black+gold styling
+import './assets/styles/index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {
@@ -28,6 +28,8 @@ import ProductListScreen from './screens/admin/ProductListScreen';
 import ProductEditScreen from './screens/admin/ProductEditScreen';
 import UserListScreen from './screens/admin/UserListScreen';
 import UserEditScreen from './screens/admin/UserEditScreen';
+import SearchScreen from './screens/SearchScreen'; // ✅ Added
+
 import store from './store';
 import { Provider } from 'react-redux';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
@@ -35,10 +37,11 @@ import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
+      {/* Public Routes */}
       <Route index={true} path="/" element={<HomeScreen />} />
-      <Route path="/search/:keyword" element={<HomeScreen />} />
+      <Route path="/search/:keyword" element={<SearchScreen />} /> {/* ✅ Updated */}
       <Route path="/page/:pageNumber" element={<HomeScreen />} />
-      <Route path="/search/:keyword/page/:pageNumber" element={<HomeScreen />} />
+      <Route path="/search/:keyword/page/:pageNumber" element={<SearchScreen />} /> {/* ✅ Updated */}
       <Route path="/product/:id" element={<ProductScreen />} />
       <Route path="/cart" element={<CartScreen />} />
       <Route path="/login" element={<LoginScreen />} />
