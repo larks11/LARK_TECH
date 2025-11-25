@@ -1,0 +1,20 @@
+/* Success (Delivered / Paid) */
+.alert.alert-success {
+  background-color: #FFD700 !important; /* Gold */
+  color: #000 !important;               /* Black text */
+  border: none !important;
+}
+
+/* Danger (Not Delivered / Not Paid) */
+.alert.alert-danger {
+  background-color: #FFD700 !important; 
+  color: #000 !important;
+  border: none !important;
+}
+
+/* Info (Order is empty, etc.) */
+.alert.alert-info {
+  background-color: #FFD700 !important;
+  color: #000 !important;
+  border: none !important;
+}
